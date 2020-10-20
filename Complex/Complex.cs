@@ -99,9 +99,9 @@ namespace Complex
             return new Complex(a.Re * b.Re - a.Im * b.Im, a.Re * b.Im + a.Im * b.Re);
         }
 
-        public static Complex operator /(Complex a, Complex b) {
+        public static Complex operator /(Complex a, Complex b){
+            if (b == 0) throw new Exception("Деление на ноль!");
             Complex conjugate = new Complex(b.Re, -b.Im);
-
             return new Complex((a * conjugate).Re / Math.Pow(b.Abs, 2), (a * conjugate).Im / Math.Pow(b.Abs, 2));
         }
 
@@ -138,20 +138,20 @@ namespace Complex
 
         public override string ToString()
         {
-            if (Im.Equals(0))
-            {
-                return Re.ToString();
-            }
-            if (Re.Equals(0))
-            {
-                return Im.ToString() + "i";
-            }
-            if (Im < 0)
-            {
-                return Re.ToString() + " - " + Math.Abs(Im).ToString() + "i";
-            }
-            
-            return Re.ToString() + " + " + Im.ToString() + "i";
+            if (Im.Equals(0)) return Re.ToString();
+            if (Re.Equals(0)) return String.Format("{0:0.00}i", Im);
+            if (Im < 0) return String.Format("{0:0.00} - {1:0.00}i", Re, Math.Abs(Im));
+            return String.Format("{0:0.00} + {1:0.00}i", Re, Im);
+        }
+
+        public string ArgToString() {
+            double arg = Arg / Math.PI;
+            if (Arg == 0) return "0";
+            if (arg == 1) return "\u03C0";
+            if (arg == -1) return "- \u03C0";
+            return String.Format("{0:0.00}\u03C0", arg);
+
+
         }
 
     }
